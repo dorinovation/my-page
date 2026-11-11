@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAYER 1: 김도연 - 레트로 오락실 자기소개</title>
+    <!-- Pixel Font (Press Start 2P) -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Galmuri9:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d0818;
+            --main-purple: #241442;
+            --accent-pink: #ff2a8d;
+            --accent-cyan: #00f0ff;
+            --accent-yellow: #ffe600;
+            --accent-green: #05ffa1;
+            --text-color: #ffffff;
+            --pixel-border: 4px solid #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Galmuri9', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(36, 20, 66, 0.8) 0%, rgba(13, 8, 24, 1) 100%),
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+        }
+
+        /* CRT Screen Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Pixel Container Component */
+        .pixel-box {
+            background: var(--main-purple);
+            border: 4px solid var(--accent-pink);
+            box-shadow: 
+                -4px 0 0 0 var(--accent-pink),
+                4px 0 0 0 var(--accent-pink),
+                0 -4px 0 0 var(--accent-pink),
+                0 4px 0 0 var(--accent-pink),
+                6px 6px 0px 0px rgba(0,0,0,0.6);
+            padding: 20px;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .pixel-box-yellow {
+            border-color: var(--accent-yellow);
+            box-shadow: 
+                -4px 0 0 0 var(--accent-yellow),
+                4px 0 0 0 var(--accent-yellow),
+                0 -4px 0 0 var(--accent-yellow),
+                0 4px 0 0 var(--accent-yellow),
+                6px 6px 0px 0px rgba(0,0,0,0.6);
+        }
+
+        .pixel-box-cyan {
+            border-color: var(--accent-cyan);
+            box-shadow: 
+                -4px 0 0 0 var(--accent-cyan),
+                4px 0 0 0 var(--accent-cyan),
+                0 -4px 0 0 var(--accent-cyan),
+                0 4px 0 0 var(--accent-cyan),
+                6px 6px 0px 0px rgba(0,0,0,0.6);
+        }
+
+        /* Retro Button */
+        .pixel-btn {
+            font-family: 'Press Start 2P', 'Galmuri9', monospace;
+            font-size: 14px;
+            padding: 12px 20px;
+            color: #000;
+            background-color: var(--accent-yellow);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 
+                inset -4px -4px 0px 0px #b2a100,
+                4px 4px 0px 0px #000;
+            transition: all 0.1s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .pixel-btn:active {
+            box-shadow: 
+                inset 4px 4px 0px 0px #b2a100,
+                0px 0px 0px 0px #000;
+            transform: translate(4px, 4px);
+        }
+
+        .pixel-btn-pink {
+            background-color: var(--accent-pink);
+            color: #fff;
+            box-shadow: 
+                inset -4px -4px 0px 0px #9e004f,
+                4px 4px 0px 0px #000;
+        }
+
+        .pixel-btn-cyan {
+            background-color: var(--accent-cyan);
+            color: #000;
+            box-shadow: 
+                inset -4px -4px 0px 0px #009bb3,
+                4px 4px 0px 0px #000;
+        }
+
+        /* Header / Profile Section */
+        header {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .title-sub {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px #000;
+            letter-spacing: 1px;
+        }
+
+        .title-main {
+            font-family: 'Press Start 2P', 'Galmuri9', cursive;
+            font-size: 28px;
+            color: var(--accent-yellow);
+            text-shadow: 4px 4px #ff2a8d;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #000;
+            padding: 10px;
+            border: 2px solid var(--accent-cyan);
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        /* Flip Cards Section */
+        .section-title {
+            font-family: 'Press Start 2P', 'Galmuri9', monospace;
+            font-size: 16px;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px #000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        @media (min-width: 500px) {
+            .card-container {
+                flex-direction: row;
+            }
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 180px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border: 3px solid #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #3d1b5c, #19092b);
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .flip-card-front i {
+            font-size: 40px;
+            margin-bottom: 12px;
+            color: var(--accent-yellow);
+            text-shadow: 3px 3px #000;
+        }
+
+        .flip-card-front h3 {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .flip-card-front span {
+            font-size: 10px;
+            color: var(--accent-cyan);
+            margin-top: 8px;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #ff2a8d, #790038);
+            transform: rotateY(180deg);
+            color: white;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        .flip-card-back h4 {
+            color: var(--accent-yellow);
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+
+        /* Quiz Section */
+        .quiz-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .quiz-btn {
+            width: 80px;
+            height: 60px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 24px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        /* Fortune Section */
+        .fortune-display {
+            background: #000;
+            border: 2px dashed var(--accent-yellow);
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            color: var(--accent-green);
+            line-height: 1.5;
+            word-break: keep-all;
+        }
+
+        /* Clicker Game Section */
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            background: #000;
+            padding: 10px;
+            border: 1px solid var(--accent-pink);
+        }
+
+        .click-target-btn {
+            width: 100%;
+            padding: 25px 10px;
+            font-size: 18px;
+            letter-spacing: 1px;
+            background-color: var(--accent-pink);
+            color: #fff;
+        }
+
+        .click-target-btn:disabled {
+            background-color: #555 !important;
+            color: #aaa !important;
+            box-shadow: none !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+            font-family: 'Press Start 2P', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="pixel-box pixel-box-yellow">
+        <div class="title-sub">★ CHARACTER SELECT ★</div>
+        <h1 class="title-main">김도연</h1>
+        <p style="color: #ddd; font-size: 13px;">레트로 오락실에 오신 것을 환영합니다!</p>
+        
+        <div class="status-bar">
+            <div class="status-item"><i class="fa-solid fa-heart" style="color: #ff2a8d;"></i> HP: MAX</div>
+            <div class="status-item"><i class="fa-solid fa-bolt" style="color: var(--accent-yellow);"></i> MP: 999</div>
+            <div class="status-item blink" style="color: var(--accent-green);">INSERT COIN</div>
+        </div>
+    </header>
+
+    <!-- Likes Section (Flip Cards) -->
+    <section class="pixel-box">
+        <h2 class="section-title"><i class="fa-solid fa-star"></i> 좋아하는 것 3가지</h2>
+        <p style="font-size: 11px; color: #aaa; margin-bottom: 15px;">* 카드를 터치/클릭해서 뒤집어보세요!</p>
+        
+        <div class="card-container">
+            <!-- Card 1: Baseball -->
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-baseball-bat-ball"></i>
+                        <h3>야구</h3>
+                        <span>[ CLICK ME ]</span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4>⚾ 야구가 좋은 이유</h4>
+                        <p>홈런 한 방에 스트레스가 싹 날아감! 직관 가서 먹는 치킨과 응원가 부르기는 내 삶의 박카스!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Games -->
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <h3>게임</h3>
+                        <span>[ CLICK ME ]</span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4>🎮 게임이 좋은 이유</h4>
+                        <p>현실 세계는 만렙 찍기 힘들지만, 게임 속에서는 세상도 구하는 일류 용사니까!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Sleeping -->
+            <div class="flip-card" onclick="flipCard(this)">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-bed"></i>
+                        <h3>자는거</h3>
+                        <span>[ CLICK ME ]</span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4>😴 자는게 좋은 이유</h4>
+                        <p>이불 속은 우주에서 가장 안전한 비밀기지! 5분만 더 자는 게 세상에서 제일 달콤함.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="pixel-box pixel-box-cyan" id="quiz-section">
+        <h2 class="section-title" style="color: var(--accent-cyan);"><i class="fa-solid fa-question-circle"></i> O/X 퀴즈</h2>
+        <p style="text-align: center; font-size: 16px; margin: 15px 0; color: #fff;">
+            Q. "나는 <span style="color: var(--accent-yellow); font-size: 18px;">7반</span>이다"
+        </p>
+        <div class="quiz-options">
+            <button class="pixel-btn pixel-btn-cyan quiz-btn" onclick="checkQuiz('O')">O</button>
+            <button class="pixel-btn pixel-btn-pink quiz-btn" onclick="checkQuiz('X')">X</button>
+        </div>
+        <div id="quiz-feedback" class="quiz-feedback"></div>
+    </section>
+
+    <!-- Fortune Section -->
+    <section class="pixel-box">
+        <h2 class="section-title"><i class="fa-solid fa-crystal-ball"></i> 오늘의 운세 뽑기</h2>
+        <p style="font-size: 12px; color: #ccc; margin-bottom: 10px;">버튼을 눌러 오늘 오락실 운세를 확인하세요!</p>
+        <button class="pixel-btn pixel-btn-pink" style="width: 100%;" onclick="drawFortune()">🔮 운세 뽑기 (PULL!)</button>
+        <div id="fortune-display" class="fortune-display">
+            버튼을 누르면 운세가 등장합니다!
+        </div>
+    </section>
+
+    <!-- Clicker Mini-game Section -->
+    <section class="pixel-box pixel-box-yellow">
+        <h2 class="section-title" style="color: var(--accent-yellow);"><i class="fa-solid fa-bolt"></i> 10초 스피드 연타 게임</h2>
+        <p style="font-size: 11px; color: #ccc; margin-bottom: 12px;">10초 동안 버튼을 마구 눌러 최고 기록에 도전하세요!</p>
+        
+        <div class="game-stats">
+            <div>TIME: <span id="game-time" style="color: var(--accent-cyan);">10.0</span>s</div>
+            <div>SCORE: <span id="game-score" style="color: var(--accent-yellow);">0</span></div>
+        </div>
+
+        <button id="click-btn" class="pixel-btn click-target-btn" onclick="handleClick()">
+            START GAME!
+        </button>
+        <p id="game-result" style="text-align: center; margin-top: 12px; font-weight: bold; color: var(--accent-green); min-height: 20px;"></p>
+    </section>
+
+    <footer>
+        <p>© 2026 KIM DO YEON - ALL RIGHTS RESERVED</p>
+        <p style="margin-top: 5px;">PRESS START TO PLAY</p>
+    </footer>
+
+    <script>
+        // Audio Synthesizer for Retro Sound Effects (Web Audio API)
+        const playRetroSound = (type) => {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.05);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'fail') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.linearRampToValueAtTime(80, now + 0.25);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+            } catch (e) {
+                // AudioContext fallback
+            }
+        };
+
+        // Card Flip Function
+        function flipCard(cardElement) {
+            playRetroSound('click');
+            cardElement.classList.toggle('flipped');
+        }
+
+        // Quiz Logic
+        function checkQuiz(answer) {
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const quizSection = document.getElementById('quiz-section');
+
+            if (answer === 'O') {
+                playRetroSound('success');
+                feedbackEl.style.color = 'var(--accent-green)';
+                feedbackEl.innerHTML = '🎉 정답입니다! 역시 통하는군요! (7반 만세!)';
+                
+                // Canvas Confetti Effect
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 60,
+                        origin: { y: 0.7 }
+                    });
+                }
+            } else {
+                playRetroSound('fail');
+                feedbackEl.style.color = 'var(--accent-pink)';
+                feedbackEl.innerHTML = '❌ 아쉽네요! 틀렸습니다. 다시 도전해보세요!';
+                
+                // Shake Animation
+                quizSection.classList.remove('shake');
+                void quizSection.offsetWidth; // Trigger reflow
+                quizSection.classList.add('shake');
+            }
+        }
+
+        // Fortunes List (10개 이상)
+        const fortunes = [
+            "🎮 오늘 오락실 가면 연속 10승 할 운세입니다! 무적 스킬 발동!",
+            "⚾ 오늘 야구장에서 홈런 공이 당신에게 날아올 확률 99%!",
+            "😴 5분만 더 자면 우주 제일 최상의 컨디션을 얻게 될 것입니다.",
+            "🎁 지나가다 럭키 아이템(100원 동전)을 발견할 확률이 높습니다!",
+            "⚡ 오늘 당신의 순발력은 만렙입니다. 미니게임에 도전하세요!",
+            "🍗 오늘 저녁에 최애 치킨을 먹게 될 엄청난 운명입니다.",
+            "💯 오늘은 시험이나 퀴즈를 보면 찍는 족족 정답일 운세!",
+            "🌟 친구가 당신에게 최애 음료수를 선물해줄 수 있습니다.",
+            "🕹️ 뽑기 기계에서 인형을 한 번에 뽑을 영웅의 기운이 맴돕니다.",
+            "🛌 오늘 밤 꿈에 당신이 좋아하는 연예인이나 승리의 요정이 찾아옵니다.",
+            "🚀 배터리가 1% 남았을 때 기적적으로 충전기를 찾게 됩니다!",
+            "🍀 오늘 당신을 만나는 모든 사람이 당신의 매력에 빠집니다."
+        ];
+
+        function drawFortune() {
+            playRetroSound('click');
+            const display = document.getElementById('fortune-display');
+            display.style.opacity = '0.5';
+            
+            // Fast text cycle animation
+            let count = 0;
+            const interval = setInterval(() => {
+                display.innerText = fortunes[Math.floor(Math.random() * fortunes.length)];
+                count++;
+                if (count > 8) {
+                    clearInterval(interval);
+                    const finalFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+                    display.innerText = "✨ " + finalFortune;
+                    display.style.opacity = '1';
+                    playRetroSound('success');
+                }
+            }, 80);
+        }
+
+        // Mini-game Clicker Logic
+        let gameActive = false;
+        let score = 0;
+        let timeLeft = 10.0;
+        let timerInterval = null;
+
+        function handleClick() {
+            const btn = document.getElementById('click-btn');
+            const timeEl = document.getElementById('game-time');
+            const scoreEl = document.getElementById('game-score');
+            const resultEl = document.getElementById('game-result');
+
+            if (!gameActive && timeLeft === 10.0) {
+                // Game Start
+                gameActive = true;
+                score = 1;
+                scoreEl.innerText = score;
+                btn.innerText = "CLICK! CLICK!";
+                btn.classList.add('pixel-btn-pink');
+                resultEl.innerText = "빠르게 누르세요!!";
+                playRetroSound('click');
+
+                timerInterval = setInterval(() => {
+                    timeLeft -= 0.1;
+                    if (timeLeft <= 0) {
+                        timeLeft = 0;
+                        endGame();
+                    }
+                    timeEl.innerText = timeLeft.toFixed(1);
+                }, 100);
+
+            } else if (gameActive) {
+                // Gameplay Click
+                score++;
+                scoreEl.innerText = score;
+                playRetroSound('click');
+            } else {
+                // Reset Game
+                resetGame();
+            }
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            gameActive = false;
+            playRetroSound('success');
+
+            const btn = document.getElementById('click-btn');
+            const resultEl = document.getElementById('game-result');
+
+            btn.innerText = "TRY AGAIN?";
+            btn.classList.remove('pixel-btn-pink');
+
+            let title = "";
+            if (score >= 70) title = "⚡ [전설의 손가락] 오락실을 제패하셨습니다!";
+            else if (score >= 50) title = "🔥 [광속의 타자] 엄청난 순발력!";
+            else if (score >= 30) title = "👍 [고수의 손길] 제법이신데요?";
+            else title = "🐢 [느긋한 거북이] 손가락 푸시고 다시 도전!";
+
+            resultEl.innerText = `게임 종료! 최종 점수: ${score}회\n${title}`;
+
+            if (typeof confetti === 'function' && score >= 40) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        function resetGame() {
+            timeLeft = 10.0;
+            score = 0;
+            document.getElementById('game-time').innerText = "10.0";
+            document.getElementById('game-score').innerText = "0";
+            document.getElementById('game-result').innerText = "";
+            document.getElementById('click-btn').innerText = "START GAME!";
+        }
+    </script>
+</body>
+</html>
